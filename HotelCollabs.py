@@ -7,7 +7,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 # Load CSV
-df = pd.read_csv("C:\\Temp\\Email\\Hilton.csv")
+df = pd.read_csv("C:\\Temp\\Email\\Sat.csv")
 df.columns = df.columns.str.strip().str.lower()  # Normalize column names
 
 # Email account settings (update with your credentials)
@@ -67,6 +67,7 @@ for _, row in df.iterrows():
     recipient_email = str(row["email"]).strip() if pd.notna(row["email"]) else "missing@example.com"
     hotel_name = row["hotel name"].strip() if pd.notna(row["hotel name"]) else "Unknown Hotel"
     subject = f"Collaboration between SophieFamilyTravel & {hotel_name}"  # Dynamic subject line
+    city = row["city"].strip() if pd.notna(row["city"]) else "your city"
 
     # Email body with a hyperlink (Modify the link)
     profile_link = "https://www.instagram.com/SophieFamilyTravel"  # Replace with your actual link
@@ -84,8 +85,9 @@ for _, row in df.iterrows():
 
         </p>
         <p style="color: black;">
-            I will be coming to West Palm Beach at the start of January to create valuable content for my audience.  
-            I have had 5 very successful collaborations with Hilton hotels in the past (Bangkok, Dubai, Portland, Sacramento and Frankfurt)    
+            I will be coming to {city} at the start of January to create valuable content for my audience.
+            I have had very successful collaborations with Marriott hotels in the past in Abu Dhabi, Cologne and Frankfurt and I would love to work with the Marriott group again. 
+
                    
         </p>
         <p style="color: black;">
