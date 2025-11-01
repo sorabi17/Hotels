@@ -68,9 +68,30 @@ for _, row in df.iterrows():
     hotel_name = row["hotel name"].strip() if pd.notna(row["hotel name"]) else "Unknown Hotel"
     subject = f"Collaboration between SophieFamilyTravel & {hotel_name}"  # Dynamic subject line
     city = row["city"].strip() if pd.notna(row["city"]) else "your city"
+    hotel_type = row["type"].strip().lower() if pd.notna(row["type"]) else ""  # Hotel group type
 
     # Email body with a hyperlink (Modify the link)
     profile_link = "https://www.instagram.com/SophieFamilyTravel"  # Replace with your actual link
+
+    # --- Conditional hotel group paragraph ---
+    if "marriott" in hotel_type:
+        hotel_paragraph = (
+            "I have had very successful collaborations with Marriott hotels in the past in Abu Dhabi, "
+            "Cologne and Frankfurt and I would love to work with the Marriott group again."
+        )
+    elif "hilton" in hotel_type:
+        hotel_paragraph = (
+            "I have had 5 very successful collaborations with Hilton hotels in the past "
+            "(Bangkok, Dubai, Portland, Sacramento and Frankfurt)."
+        )
+    elif "ihg" in hotel_type:
+        hotel_paragraph = (
+            "I have recently had a very successful collaboration with an IHG hotel in Dubai – "
+            "the Intercontinental Residences and Suites."
+        )
+    else:
+        hotel_paragraph = ""  # No group mention if not part of Marriott/Hilton/IHG
+
 
     body = f"""\
 <html>
@@ -86,7 +107,7 @@ for _, row in df.iterrows():
         </p>
         <p style="color: black;">
             I will be coming to {city} at the start of January to create valuable content for my audience.
-            I have had very successful collaborations with Marriott hotels in the past in Abu Dhabi, Cologne and Frankfurt and I would love to work with the Marriott group again. 
+            {" " + hotel_paragraph if hotel_paragraph else ""} 
 
                    
         </p>
