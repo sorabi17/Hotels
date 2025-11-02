@@ -3,3 +3,5 @@ Brand,	Email,	Brand, Paragrah,	Brand Product,	Proserv,	accounttype
 Then each need to be populated with the following: 
 For brand product, proserv and accounttype - as an example for Deliveroo 
 Deliveroo meals,	services,	lifestyle
+
+The media kit is decided based on whether its a Product or Service. 
