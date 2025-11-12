@@ -7,7 +7,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 # Load CSV
-df = pd.read_csv("C:\\Temp\\Email\\Sat.csv")
+df = pd.read_csv("C:\\Temp\\Email\\Monday.csv")
 df.columns = df.columns.str.strip().str.lower()  # Normalize column names
 
 # Email account settings (update with your credentials)
@@ -106,7 +106,7 @@ for _, row in df.iterrows():
 
         </p>
         <p style="color: black;">
-            I will be coming to {city} at the start of January to create valuable content for my audience.
+            I will be coming to {city} mid January to create valuable content for my audience.
             {" " + hotel_paragraph if hotel_paragraph else ""} 
 
                    
