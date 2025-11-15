@@ -7,7 +7,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 # Load CSV
-df = pd.read_csv("C:\\Temp\\Email\\Monday.csv")
+df = pd.read_csv("C:\\Temp\\Email\\sheet19.csv")
 df.columns = df.columns.str.strip().str.lower()  # Normalize column names
 
 # Email account settings (update with your credentials)
@@ -70,8 +70,8 @@ for _, row in df.iterrows():
     city = row["city"].strip() if pd.notna(row["city"]) else "your city"
     hotel_type = row["type"].strip().lower() if pd.notna(row["type"]) else ""  # Hotel group type
 
-    # Email body with a hyperlink (Modify the link)
-    profile_link = "https://www.instagram.com/SophieFamilyTravel"  # Replace with your actual link
+    # Email body with a hyperlink
+    profile_link = "https://www.instagram.com/SophieFamilyTravel"
 
     # --- Conditional hotel group paragraph ---
     if "marriott" in hotel_type:
@@ -89,9 +89,13 @@ for _, row in df.iterrows():
             "I have recently had a very successful collaboration with an IHG hotel in Dubai – "
             "the Intercontinental Residences and Suites."
         )
+    elif "accor" in hotel_type:
+        hotel_paragraph = (
+            "I have worked with Accor Hotels 3 times in the past in Dubai, Germany and Singapore "
+            "and would love to work with you again!"
+        )
     else:
-        hotel_paragraph = ""  # No group mention if not part of Marriott/Hilton/IHG
-
+        hotel_paragraph = ""  # No group mention if not part of the above
 
     body = f"""\
 <html>
@@ -101,15 +105,13 @@ for _, row in df.iterrows():
         <p style="color: black;">
             My name is Sophie, and I am the content creator behind <strong>@SophieFamilyTravel</strong>, 
             where I engage with over 230,000 enthusiastic followers between my Instagram and YouTube. 
-            
-            <a href="{profile_link}" style="color: #0073e6; text-decoration: none; font-weight: bold;">You can explore my profile here</a>.
-
+            <a href="{profile_link}" style="color: #0073e6; text-decoration: none; font-weight: bold;">
+                You can explore my profile here
+            </a>.
         </p>
         <p style="color: black;">
             I will be coming to {city} mid January to create valuable content for my audience.
             {" " + hotel_paragraph if hotel_paragraph else ""} 
-
-                   
         </p>
         <p style="color: black;">
             <strong>{hotel_name}</strong> immediately caught my eye, and I would love to create some content for you, 
@@ -132,11 +134,10 @@ for _, row in df.iterrows():
         <p style="color: black;">I would love to answer any questions you have.</p>
         <p style="color: black;">Thank you so much for your time!</p>
 
-        {signature}  <!-- Signature already contains black font -->
+        {signature}
     </body>
 </html>
 """
-
 
     # Construct the email
     msg = MIMEMultipart()
@@ -150,7 +151,7 @@ for _, row in df.iterrows():
         part = MIMEBase("application", "octet-stream")
         part.set_payload(attachment.read())
 
-    encoders.encode_base64(part)  # Encode file in Base64
+    encoders.encode_base64(part)
     part.add_header("Content-Disposition", f"attachment; filename={os.path.basename(ATTACHMENT_PATH)}")
     msg.attach(part)
 
@@ -160,6 +161,7 @@ for _, row in df.iterrows():
         print(f"✅ Email sent to {recipient_email} for {hotel_name}")
     except Exception as e:
         print(f"❌ Failed to send email to {recipient_email}: {e}")
+
 
 # Close the server connection
 server.quit()
